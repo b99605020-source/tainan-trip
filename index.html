@@ -540,7 +540,7 @@
         } catch (error) {
           status.textContent = "投票未成功，請檢查網路後再試。";
         } finally {
-          submitButton.disabled = false;
+          submitButton.disabled = form.dataset.voted === "true";
         }
       });
 
