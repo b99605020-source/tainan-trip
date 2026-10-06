@@ -443,10 +443,28 @@
       const status = document.getElementById("dinner-vote-status");
       const countsList = document.getElementById("dinner-vote-counts");
       const submitButton = form.querySelector('button[type="submit"]');
+      const voteStorageKey = "tainan-trip-dinner-vote";
       const headers = {
         apikey: publicKey,
         Authorization: `Bearer ${publicKey}`,
         "Content-Type": "application/json"
+      };
+
+      const getSavedVote = () => {
+        try {
+          const option = localStorage.getItem(voteStorageKey);
+          return allowedOptions.includes(option) ? option : null;
+        } catch (error) {
+          return null;
+        }
+      };
+
+      const lockVoteForm = (option) => {
+        form.dataset.voted = "true";
+        nicknameField.disabled = true;
+        optionField.disabled = true;
+        submitButton.disabled = true;
+        status.textContent = `你已經投過了，投的是「${option}」。`;
       };
 
       const refreshCounts = async () => {
@@ -475,16 +493,21 @@
             item.append(label, number);
             return item;
           }));
-          status.textContent = "票數已更新。";
+          if (!form.dataset.voted) status.textContent = "票數已更新。";
           return true;
         } catch (error) {
-          status.textContent = "目前無法載入票數，請稍後再試。";
+          if (!form.dataset.voted) status.textContent = "目前無法載入票數，請稍後再試。";
           return false;
         }
       };
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        const savedOption = getSavedVote();
+        if (savedOption) {
+          lockVoteForm(savedOption);
+          return;
+        }
         const nickname = nicknameField.value.trim();
         const option = optionField.value;
         if (!nickname || nickname.length > 40 || !allowedOptions.includes(option)) {
@@ -500,9 +523,20 @@
             body: JSON.stringify({ nickname, option })
           });
           if (!response.ok) throw new Error("投票失敗");
+          let savedLocally = true;
+          try {
+            localStorage.setItem(voteStorageKey, option);
+          } catch (error) {
+            savedLocally = false;
+          }
           form.reset();
+          lockVoteForm(option);
           const refreshed = await refreshCounts();
-          status.textContent = refreshed ? "投票成功，票數已更新。" : "投票已送出，但票數目前無法更新。";
+          if (!savedLocally) {
+            status.textContent = `你已經投過了，投的是「${option}」。這個瀏覽器無法保存投票記錄。`;
+          } else if (!refreshed) {
+            status.textContent = `你已經投過了，投的是「${option}」。目前無法載入票數，請稍後再試。`;
+          }
         } catch (error) {
           status.textContent = "投票未成功，請檢查網路後再試。";
         } finally {
@@ -510,6 +544,8 @@
         }
       });
 
+      const savedVote = getSavedVote();
+      if (savedVote) lockVoteForm(savedVote);
       refreshCounts();
     })();
   </script>
