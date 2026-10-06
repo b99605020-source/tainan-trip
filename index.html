@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f3eb">
+  <script>
+    try {
+      if (localStorage.getItem("tainan-trip-theme") === "dark") {
+        document.documentElement.dataset.theme = "dark";
+      }
+    } catch (error) {}
+  </script>
   <title>府城快樂遊｜陽光裡慢慢走，慢慢吃</title>
   <style>
     :root {
@@ -126,11 +133,69 @@
       .time { min-width: 74px; font-size: 13px; }
       .stop h3 { font-size: 18px; }
     }
-  </style>
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f3f5f2;
+      --muted: #c4cbd0;
+      --paper: #202328;
+      --card: #2b3036;
+      --green: #d3ead7;
+      --green-soft: #3b4a40;
+      --orange: #ffc094;
+      --line: #59616a;
+      --shadow: 0 12px 32px rgba(0, 0, 0, .34);
+    }
+    :root[data-theme="dark"] body { background: #202328; color: var(--ink); }
+    :root[data-theme="dark"] .hero {
+      background: radial-gradient(circle at 86% 18%, rgba(245, 227, 180, .08), transparent 21%), linear-gradient(135deg, #343b41, #272c32);
+    }
+    :root[data-theme="dark"] .eyebrow { color: #ead6b4; }
+    :root[data-theme="dark"] h1 { color: #fff; }
+    :root[data-theme="dark"] .hero p:last-child { color: #e4e9ec; }
+    :root[data-theme="dark"] .quick-nav a { background: var(--card); color: var(--ink); border-color: var(--line); }
+    :root[data-theme="dark"] .day-number { background: #526d59; color: #fff; }
+    :root[data-theme="dark"] .stop { background: var(--card); border-color: var(--line); }
+    :root[data-theme="dark"] .time { background: var(--green-soft); color: #e4f4e7; }
+    :root[data-theme="dark"] .place { color: var(--muted); }
+    :root[data-theme="dark"] .souvenir { color: #e6d9cc; }
+    :root[data-theme="dark"] .souvenir strong { color: var(--orange); }
+    :root[data-theme="dark"] .note { background: #343a40; color: #e4e9ec; }
+    :root[data-theme="dark"] footer { color: var(--muted); }
+    :root[data-theme="dark"] .day .stop::before { border-color: var(--card); }
+    .theme-toggle {
+      position: absolute;
+      z-index: 3;
+      top: 14px;
+      right: 14px;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      padding: 0;
+      border: 1px solid rgba(53, 70, 56, .3);
+      border-radius: 50%;
+      background: rgba(255, 253, 248, .94);
+      color: #354638;
+      font: inherit;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(50, 55, 44, .12);
+    }
+    .theme-toggle:hover { transform: translateY(-1px); }
+    .theme-toggle:focus-visible { outline: 3px solid #31594b; outline-offset: 3px; }
+    :root[data-theme="dark"] .theme-toggle {
+      border-color: #84909a;
+      background: #454c53;
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .4);
+    }
+    :root[data-theme="dark"] .theme-toggle:focus-visible { outline-color: #d3ead7; }  </style>
 </head>
 <body>
   <main class="page">
     <header class="hero">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切換為深色模式" aria-pressed="false" title="切換為深色模式">☾</button>
       <p class="eyebrow">SLOW DAYS IN TAINAN · 2 DAYS / 1 NIGHT</p>
       <h1>府城快樂遊</h1>
       <p>巷弄散步、老屋小店，和朋友一起慢慢吃、慢慢逛。</p>
@@ -208,8 +273,33 @@
       <p style="margin:0">集合時間：示意｜第一天上午 10:00 集合，實際時間再通知。</p>
     </section>
   </main>
+  <script>
+    (() => {
+      const storageKey = "tainan-trip-theme";
+      const button = document.getElementById("theme-toggle");
+      const root = document.documentElement;
+      const applyTheme = (theme) => {
+        const isDark = theme === "dark";
+        root.dataset.theme = isDark ? "dark" : "light";
+        button.textContent = isDark ? "☀" : "☾";
+        button.setAttribute("aria-pressed", String(isDark));
+        const label = isDark ? "切換為淺色模式" : "切換為深色模式";
+        button.setAttribute("aria-label", label);
+        button.title = label;
+      };
+      applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+      button.addEventListener("click", () => {
+        const theme = root.dataset.theme === "dark" ? "light" : "dark";
+        applyTheme(theme);
+        try {
+          localStorage.setItem(storageKey, theme);
+        } catch (error) {}
+      });
+    })();
+  </script>
 </body>
 </html>
+
 
 
 
