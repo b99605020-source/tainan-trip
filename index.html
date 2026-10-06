@@ -19,28 +19,36 @@
   <title>府城快樂遊｜陽光裡慢慢走，慢慢吃</title>
   <style>
     :root {
+      --main: #A24820;
+      --background: #FDF6E5;
+      --text: #524943;
+      --main-rgb: 162, 72, 32;
+      --background-rgb: 253, 246, 229;
+      --text-rgb: 82, 73, 67;
+      --ink: var(--text);
+      --muted: rgba(var(--text-rgb), .88);
+      --paper: var(--background);
+      --card: var(--background);
+      --green: var(--main);
+      --green-soft: rgba(var(--main-rgb), .10);
+      --orange: var(--main);
+      --line: rgba(var(--text-rgb), .22);
+      --note-bg: rgba(var(--main-rgb), .08);
+      --shadow: 0 12px 32px rgba(var(--text-rgb), .12);
       color-scheme: light;
-      --ink: #354638;
-      --muted: #718071;
-      --paper: #fff8e9;
-      --card: #fffefa;
-      --green: #4f795e;
-      --green-soft: #eaf1d9;
-      --orange: #bd6848;
-      --line: #eddfc7;
-      --shadow: 0 12px 32px rgba(137, 102, 47, .12);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: radial-gradient(circle at 92% 3%, rgba(255, 224, 151, .52), transparent 27%), var(--paper);
+      background: radial-gradient(circle at 92% 3%, rgba(var(--main-rgb), .10), transparent 27%), var(--paper);
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       font-size: 17px;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
+    h1, h2, h3 { font-family: "Noto Serif TC", "Songti TC", "PMingLiU", "Noto Serif CJK TC", "MingLiU", serif; }
     .page { width: min(100% - 32px, 760px); margin: 0 auto; padding-bottom: 42px; }
     .hero {
       position: relative;
@@ -49,7 +57,15 @@
       padding: 34px 25px 29px;
       border-radius: 26px;
       color: var(--ink);
-      background: radial-gradient(circle at 86% 18%, rgba(255, 255, 224, .8), transparent 21%), linear-gradient(135deg, #f4d27c 0%, #f7bb78 55%, #e9a06c 100%);
+      background-color: var(--background);
+      background-image: linear-gradient(90deg, rgba(var(--background-rgb), .94) 0%, rgba(var(--background-rgb), .84) 36%, rgba(var(--background-rgb), .08) 72%), url("tainan-trip-cover.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       box-shadow: var(--shadow);
     }
     .hero::after {
@@ -60,44 +76,52 @@
       width: clamp(130px, 36vw, 205px);
       aspect-ratio: 1;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,228,.95) 0 34%, rgba(255,244,189,.48) 56%, rgba(255,244,189,0) 73%);
+      background: radial-gradient(circle, rgba(var(--background-rgb), .92) 0 34%, rgba(var(--background-rgb), .48) 56%, rgba(var(--background-rgb), 0) 73%);
       pointer-events: none;
     }
-    .eyebrow { margin: 0 0 5px; color: #785a32; font-size: 13px; font-weight: 700; letter-spacing: .16em; }
-    h1 { position: relative; z-index: 1; margin: 0; color: #30483a; font-size: clamp(34px, 9vw, 52px); line-height: 1.18; letter-spacing: .04em; }
-    .hero p:last-child { position: relative; z-index: 1; margin: 12px 0 0; color: #594c38; font-size: 16px; }
+    .eyebrow { margin: 0 0 5px; color: var(--main); font-size: 15px; font-weight: 700; letter-spacing: .12em; }
+    h1 { position: relative; z-index: 1; margin: 0; color: var(--text); font-size: clamp(34px, 9vw, 52px); line-height: 1.18; letter-spacing: .04em; }
+    .hero p:last-child { position: relative; z-index: 1; margin: 12px 0 0; color: var(--text); font-size: 17px; line-height: 1.7; }
     .quick-nav { display: flex; gap: 10px; margin: 0 0 30px; }
-    .quick-nav a {
-      flex: 1; min-height: 46px; display: grid; place-items: center;
+    .quick-nav button {
+      flex: 1; min-height: 46px; display: grid; place-items: center; padding: 8px 10px;
       border: 1px solid var(--line); border-radius: 14px; background: var(--card);
-      color: var(--green); text-decoration: none; font-size: 15px; font-weight: 750;
+      color: var(--green); font: inherit; font-size: 16px; font-weight: 750; cursor: pointer;
     }
+    .quick-nav button[aria-pressed="true"] { background: var(--main); border-color: var(--main); color: var(--background); }
+    .quick-nav button:focus-visible { outline: 3px solid var(--main); outline-offset: 3px; }
+    .day[hidden] { display: none !important; }
     .day { margin-top: 34px; scroll-margin-top: 16px; }
     .day-heading { display: flex; align-items: center; gap: 13px; margin: 0 0 16px; }
     .day-number {
       flex: 0 0 54px; width: 54px; height: 54px; display: grid; place-items: center;
-      border-radius: 17px; background: var(--green); color: white; font-size: 23px; font-weight: 800;
+      border-radius: 17px; background: var(--green); color: var(--background); font-size: 23px; font-weight: 800;
     }
     .day-heading h2 { margin: 0; font-size: 24px; line-height: 1.25; }
-    .day-heading p { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .day-heading p { margin: 3px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
     .stops { display: grid; gap: 13px; }
     .stop {
       position: relative; padding: 19px 18px 17px;
-      border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: 0 5px 16px rgba(45,55,43,.035);
+      border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: 0 5px 16px rgba(var(--text-rgb), .035);
     }
     .stop-top { display: flex; align-items: flex-start; gap: 12px; }
     .time {
       flex: 0 0 auto; min-width: 82px; padding: 4px 9px; border-radius: 10px;
       background: var(--green-soft); color: var(--green); text-align: center;
-      font-size: 14px; font-weight: 800; line-height: 1.6;
+      font-size: 17px; font-weight: 800; line-height: 1.7;
     }
     .stop h3 { margin: 0; font-size: 19px; line-height: 1.4; }
-    .place { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
-    .desc { margin: 13px 0 12px; font-size: 16px; line-height: 1.65; }
-    .souvenir { margin: 0; padding-top: 10px; border-top: 1px dashed var(--line); color: #684d38; font-size: 14px; }
+    .place { margin: 3px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+    .desc { margin: 13px 0 12px; font-size: 17px; line-height: 1.7; }
+    .souvenir { margin: 0; padding-top: 10px; border-top: 1px dashed var(--line); color: var(--ink); font-size: 17px; line-height: 1.7; }
     .souvenir strong { color: var(--orange); }
-    .note { margin: 25px 2px 0; padding: 14px 16px; border-radius: 15px; background: #efe8d9; color: #625b4e; font-size: 14px; }
-    footer { padding: 25px 10px 0; color: var(--muted); text-align: center; font-size: 13px; }
+    .stop-check {
+      display: flex; min-height: 44px; align-items: center; justify-content: flex-end; gap: 8px;
+      margin-top: 10px; color: var(--muted); font-size: 16px; cursor: pointer;
+    }
+    .stop-check input { width: 22px; height: 22px; margin: 0; accent-color: var(--main); cursor: pointer; }
+    .note { margin: 25px 2px 0; padding: 14px 16px; border-radius: 15px; background: var(--note-bg); color: var(--ink); font-size: 17px; line-height: 1.7; }
+    footer { padding: 25px 10px 0; color: var(--muted); text-align: center; font-size: 15px; line-height: 1.7; }
     .day .stops {
       position: relative;
       display: grid;
@@ -113,7 +137,7 @@
       left: 6px;
       width: 3px;
       border-radius: 3px;
-      background: linear-gradient(180deg, #e9b95f, #9bb486);
+      background: linear-gradient(180deg, var(--main), var(--main));
     }
     .day .stop::before {
       content: "";
@@ -122,51 +146,64 @@
       left: -25px;
       width: 15px;
       height: 15px;
-      border: 3px solid #fffefa;
+      border: 3px solid var(--card);
       border-radius: 50%;
-      background: #d78d50;
-      box-shadow: 0 0 0 2px #e9b95f;
-    }    @media (min-width: 620px) {
-      .page { width: min(100% - 48px, 760px); }
+      background: var(--main);
+      box-shadow: 0 0 0 2px var(--main);
+    }
+    @media (max-width: 619px) {
+      .hero {
+        min-height: 330px;
+        padding-bottom: 180px;
+        justify-content: flex-start;
+        background-position: center bottom;
+        background-size: 100% auto;
+      }
+    }
+    @media (min-width: 620px) {
+    .page { width: min(100% - 48px, 760px); }
       .hero { margin-top: 28px; padding: 43px 38px 37px; }
       .stops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .stop { padding: 20px; }
     }
     @media (max-width: 360px) {
-      .page { width: calc(100% - 24px); }
+    .page { width: calc(100% - 24px); }
       .stop { padding: 16px 14px; }
-      .time { min-width: 74px; font-size: 13px; }
+      .time { min-width: 74px; font-size: 17px; line-height: 1.7; }
       .stop h3 { font-size: 18px; }
     }
     :root[data-theme="dark"] {
+      --ink: var(--background);
+      --muted: rgba(var(--background-rgb), .88);
+      --paper: var(--text);
+      --card: var(--text);
+      --green: var(--background);
+      --green-soft: rgba(var(--background-rgb), .12);
+      --orange: var(--background);
+      --line: rgba(var(--background-rgb), .25);
+      --note-bg: rgba(var(--background-rgb), .10);
+      --shadow: 0 12px 32px rgba(var(--text-rgb), .36);
       color-scheme: dark;
-      --ink: #f3f5f2;
-      --muted: #c4cbd0;
-      --paper: #202328;
-      --card: #2b3036;
-      --green: #d3ead7;
-      --green-soft: #3b4a40;
-      --orange: #ffc094;
-      --line: #59616a;
-      --shadow: 0 12px 32px rgba(0, 0, 0, .34);
     }
-    :root[data-theme="dark"] body { background: #202328; color: var(--ink); }
+    :root[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
     :root[data-theme="dark"] .hero {
-      background: radial-gradient(circle at 86% 18%, rgba(245, 227, 180, .08), transparent 21%), linear-gradient(135deg, #343b41, #272c32);
+      background-image: linear-gradient(90deg, rgba(var(--text-rgb), .94) 0%, rgba(var(--text-rgb), .82) 38%, rgba(var(--text-rgb), .14) 76%), url("tainan-trip-cover.png");
     }
-    :root[data-theme="dark"] .eyebrow { color: #ead6b4; }
-    :root[data-theme="dark"] h1 { color: #fff; }
-    :root[data-theme="dark"] .hero p:last-child { color: #e4e9ec; }
-    :root[data-theme="dark"] .quick-nav a { background: var(--card); color: var(--ink); border-color: var(--line); }
-    :root[data-theme="dark"] .day-number { background: #526d59; color: #fff; }
+    :root[data-theme="dark"] .eyebrow { color: var(--ink); }
+    :root[data-theme="dark"] h1 { color: var(--ink); }
+    :root[data-theme="dark"] .hero p:last-child { color: var(--ink); }
+    :root[data-theme="dark"] .quick-nav button { background: var(--card); color: var(--ink); border-color: var(--line); }
+    :root[data-theme="dark"] .quick-nav button[aria-pressed="true"] { background: var(--main); border-color: var(--main); color: var(--background); }
+    :root[data-theme="dark"] .day-number { background: var(--main); color: var(--ink); }
     :root[data-theme="dark"] .stop { background: var(--card); border-color: var(--line); }
-    :root[data-theme="dark"] .time { background: var(--green-soft); color: #e4f4e7; }
+    :root[data-theme="dark"] .time { background: var(--green-soft); color: var(--ink); }
     :root[data-theme="dark"] .place { color: var(--muted); }
-    :root[data-theme="dark"] .souvenir { color: #e6d9cc; }
+    :root[data-theme="dark"] .souvenir { color: var(--ink); }
     :root[data-theme="dark"] .souvenir strong { color: var(--orange); }
-    :root[data-theme="dark"] .note { background: #343a40; color: #e4e9ec; }
+    :root[data-theme="dark"] .note { background: var(--paper); color: var(--ink); }
     :root[data-theme="dark"] footer { color: var(--muted); }
-    :root[data-theme="dark"] .day .stop::before { border-color: var(--card); }
+    :root[data-theme="dark"] .day .stops::before { background: linear-gradient(180deg, var(--background), rgba(var(--background-rgb), .38)); }
+    :root[data-theme="dark"] .day .stop::before { border-color: var(--card); background: var(--background); box-shadow: 0 0 0 2px var(--background); }
     .theme-toggle {
       position: absolute;
       z-index: 3;
@@ -177,25 +214,45 @@
       height: 44px;
       place-items: center;
       padding: 0;
-      border: 1px solid rgba(53, 70, 56, .3);
+      border: 1px solid rgba(var(--text-rgb), .32);
       border-radius: 50%;
-      background: rgba(255, 253, 248, .94);
-      color: #354638;
+      background: rgba(var(--background-rgb), .96);
+      color: var(--text);
       font: inherit;
       font-size: 22px;
       line-height: 1;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(50, 55, 44, .12);
+      box-shadow: 0 3px 10px rgba(var(--text-rgb), .16);
     }
     .theme-toggle:hover { transform: translateY(-1px); }
-    .theme-toggle:focus-visible { outline: 3px solid #31594b; outline-offset: 3px; }
+    .theme-toggle:focus-visible { outline: 3px solid var(--main); outline-offset: 3px; }
     :root[data-theme="dark"] .theme-toggle {
-      border-color: #84909a;
-      background: #454c53;
-      color: #fff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, .4);
+      border-color: var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 3px 12px rgba(var(--text-rgb), .40);
     }
-    :root[data-theme="dark"] .theme-toggle:focus-visible { outline-color: #d3ead7; }  </style>
+    :root[data-theme="dark"] .theme-toggle:focus-visible { outline-color: var(--background); }
+    .dinner-vote-form { display: grid; gap: 10px; margin: 12px 0 16px; }
+    .dinner-vote-form label { font-weight: 700; }
+    .dinner-vote-form input,
+    .dinner-vote-form select {
+      width: 100%; min-height: 46px; padding: 10px 12px;
+      border: 1px solid var(--line); border-radius: 10px;
+      background: var(--card); color: var(--ink); font: inherit;
+    }
+    .dinner-vote-form button {
+      min-height: 46px; border: 0; border-radius: 10px; padding: 10px 14px;
+      background: var(--main); color: var(--background); font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .dinner-vote-form button:disabled { opacity: .65; cursor: wait; }
+    .dinner-vote-counts { margin: 12px 0 0; padding: 0; list-style: none; }
+    .dinner-vote-counts li {
+      display: flex; justify-content: space-between; gap: 16px;
+      padding: 8px 0; border-top: 1px solid var(--line);
+    }
+    .dinner-vote-counts strong { white-space: nowrap; }
+  </style>
 </head>
 <body>
   <main class="page">
@@ -206,9 +263,10 @@
       <p>巷弄散步、老屋小店，和朋友一起慢慢吃、慢慢逛。</p>
     </header>
 
-    <nav class="quick-nav" aria-label="行程快速導覽">
-      <a href="#day1">第一天｜老城漫遊</a>
-      <a href="#day2">第二天｜午後散策</a>
+    <nav class="quick-nav" aria-label="選擇今天要看的行程">
+      <button type="button" data-day-view="day1" aria-pressed="false">第一天</button>
+      <button type="button" data-day-view="day2" aria-pressed="false">第二天</button>
+      <button type="button" data-day-view="all" aria-pressed="true">全部行程</button>
     </nav>
 
     <section class="day" id="day1" aria-labelledby="day1-title">
@@ -218,24 +276,28 @@
       </div>
       <div class="stops">
         <article class="stop">
-          <div class="stop-top"><span class="time">10:30</span><div><h3>府城小巷散步</h3><p class="place">示意地點｜中西區巷弄</p></div></div>
-          <p class="desc">先放慢腳步鑽進老街巷，看看紅磚老屋和轉角的小風景。</p>
-          <p class="souvenir"><strong>伴手禮提案：</strong>巷弄明信片、老屋造型磁鐵</p>
+          <div class="stop-top"><span class="time">10:30</span><div><h3>赤崁樓</h3><p class="place">中西區民族路二段212號｜每日 08:30–21:30</p></div></div>
+          <p class="desc">走訪普羅民遮城舊址與海神廟、文昌閣，認識府城的歷史。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>赤崁樓明信片、府城古蹟書籤</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-1" aria-label="標記赤崁樓為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">12:00</span><div><h3>小霞的古早味</h3><p class="place">示意店名｜午餐</p></div></div>
-          <p class="desc">挑幾樣在地小吃分著吃，留點胃口給下午的甜點。</p>
-          <p class="souvenir"><strong>伴手禮提案：</strong>蝦餅小包、虱目魚造型鑰匙圈</p>
+          <div class="stop-top"><span class="time">12:00</span><div><h3>度小月擔仔麵・中正旗艦店</h3><p class="place">中西區中正路101號｜11:00–14:20、17:00–20:20</p></div></div>
+          <p class="desc">品嚐以蝦湯與肉燥提味的府城擔仔麵，感受百年老店滋味。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>帆船肉燥禮盒、擔仔麵料理包</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-2" aria-label="標記度小月擔仔麵・中正旗艦店為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">14:00</span><div><h3>暖日老屋茶屋</h3><p class="place">示意店名｜老屋咖啡與甜點</p></div></div>
-          <p class="desc">在老屋裡坐一會兒，點杯茶或甜品補充散步能量。</p>
-          <p class="souvenir"><strong>伴手禮提案：</strong>茶包禮盒、手繪杯墊</p>
+          <div class="stop-top"><span class="time">14:00</span><div><h3>林百貨</h3><p class="place">中西區忠義路二段63號｜每日 11:00–21:00</p></div></div>
+          <p class="desc">逛逛老百貨建築與台南選物，也能從高樓層欣賞府城風景。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>林百貨磨石子提袋、HAYASHI 銅鑼燒禮盒</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-3" aria-label="標記林百貨為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">16:30</span><div><h3>河樂廣場看夕陽</h3><p class="place">示意地點｜市區散步景點</p></div></div>
-          <p class="desc">沿著水岸走走、拍幾張合照，再找喜歡的地方吃晚餐。</p>
-          <p class="souvenir"><strong>紀念小物：</strong>台南風景明信片、底片風相片</p>
+          <div class="stop-top"><span class="time">16:30</span><div><h3>河樂廣場散步</h3><p class="place">中西區中正路343號｜09:00–22:00（週二休園）</p></div></div>
+          <p class="desc">沿著親水廣場散步，看看原中國城遺構與水岸景色。</p>
+          <p class="souvenir"><strong>紀念小物：</strong>府城風景明信片、河樂廣場紀念磁鐵</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-4" aria-label="標記河樂廣場散步為已完成"><span>完成</span></label>
         </article>
       </div>
     </section>
@@ -247,29 +309,33 @@
       </div>
       <div class="stops">
         <article class="stop">
-          <div class="stop-top"><span class="time">09:30</span><div><h3>安平樹屋慢慢逛</h3><p class="place">示意地點｜安平老街周邊</p></div></div>
-          <p class="desc">看看老建築和盤根錯節的榕樹，感受時間留下來的痕跡。</p>
+          <div class="stop-top"><span class="time">09:30</span><div><h3>安平樹屋慢慢逛</h3><p class="place">安平區古堡街108號旁｜每日 08:30–17:30</p></div></div>
+          <p class="desc">沿木棧道穿梭樹冠，欣賞榕樹與百年倉庫交織的屋樹共生景觀。</p>
           <p class="souvenir"><strong>紀念小物：</strong>樹屋插畫明信片、古蹟造型書籤</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-5" aria-label="標記安平樹屋慢慢逛為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">11:30</span><div><h3>蝦捲阿嬤小舖</h3><p class="place">示意店名｜午餐</p></div></div>
-          <p class="desc">用一桌經典台南味當午餐，大家一起點菜分享最有旅行感。</p>
-          <p class="souvenir"><strong>伴手禮提案：</strong>蝦餅禮盒、海味零嘴</p>
+          <div class="stop-top"><span class="time">11:30</span><div><h3>周氏蝦捲・安平老店</h3><p class="place">安平區安平路125號｜平日 09:30–18:30、假日 09:30–19:00</p></div></div>
+          <p class="desc">來份外酥內鮮的蝦捲與在地海味小吃，當作安平午餐。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>周氏蝦捲冷凍禮盒、安平蝦餅</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-6" aria-label="標記周氏蝦捲・安平老店為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">13:30</span><div><h3>安平老街尋寶</h3><p class="place">示意地點｜安平老街</p></div></div>
-          <p class="desc">邊逛小店邊試吃，把想帶回家的台南味一次買齊。</p>
-          <p class="souvenir"><strong>伴手禮提案：</strong>蜜餞小盒、蝦餅分享包</p>
+          <div class="stop-top"><span class="time">13:30</span><div><h3>安平老街尋寶</h3><p class="place">安平區延平街｜老店與巷弄各有營業時間</p></div></div>
+          <p class="desc">走逛延平街與周邊巷弄，尋找老屋、風獅爺與劍獅裝飾。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>安平蜜餞、蝦餅分享包</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-7" aria-label="標記安平老街尋寶為已完成"><span>完成</span></label>
         </article>
         <article class="stop">
-          <div class="stop-top"><span class="time">15:30</span><div><h3>海風選物小店</h3><p class="place">示意店名｜返程前最後一站</p></div></div>
-          <p class="desc">挑一件輕巧的小紀念品，帶著兩天的回憶準備返程。</p>
-          <p class="souvenir"><strong>紀念小物：</strong>台南插畫小卡、帆布零錢包</p>
+          <div class="stop-top"><span class="time">15:30</span><div><h3>安平古堡</h3><p class="place">安平區國勝路82號｜每日 10:00–17:10</p></div></div>
+          <p class="desc">看看熱蘭遮城遺跡與古堡城牆，認識安平港近四百年的歷史。</p>
+          <p class="souvenir"><strong>紀念小物：</strong>安平古堡明信片、熱蘭遮城主題書籤</p>
+          <label class="stop-check"><input type="checkbox" data-stop-id="stop-8" aria-label="標記安平古堡為已完成"><span>完成</span></label>
         </article>
       </div>
     </section>
 
-    <p class="note">行程中的店名、地點與時間皆為示意，實際開放時間與交通安排請出發前確認；可依大家的步調彈性調整。</p>
+    <p class="note">景點、店家與營業資訊依公開資料整理；店休日與交通可能調整，出發前請再確認，行程可依大家步調彈性調整。</p>
     <footer>留一點空白給迷路、加點和意外遇見的好風景。</footer>
     <section class="note" aria-labelledby="reminder-title">
       <h2 id="reminder-title" style="margin:0 0 6px;font-size:18px;color:var(--ink)">行前提醒</h2>
@@ -281,6 +347,23 @@
     <section class="note" aria-labelledby="qr-title">
       <h2 id="qr-title" style="margin:0 0 6px;font-size:18px;color:var(--ink)">網站 QR 碼</h2>
       <img src="tainan-trip-qr.png" alt="府城快樂遊網站 QR 碼" width="220" height="220" style="display:block;width:min(100%,220px);height:auto;margin:12px auto 0">
+    </section>
++    <section class="note" id="dinner-vote" aria-labelledby="dinner-vote-title">
+      <h2 id="dinner-vote-title" style="margin:0 0 6px;font-size:18px;color:var(--ink)">晚餐投票</h2>
+      <p style="margin:0">選一道晚餐，送出後查看目前票數。</p>
+      <form class="dinner-vote-form" id="dinner-vote-form">
+        <label for="dinner-vote-nickname">暱稱</label>
+        <input id="dinner-vote-nickname" name="nickname" type="text" maxlength="40" autocomplete="nickname" required>
+        <label for="dinner-vote-option">晚餐選項</label>
+        <select id="dinner-vote-option" name="option" required>
+          <option value="牛肉湯">牛肉湯</option>
+          <option value="鱔魚意麵">鱔魚意麵</option>
+          <option value="棺材板">棺材板</option>
+        </select>
+        <button type="submit">送出投票</button>
+      </form>
+      <p id="dinner-vote-status" role="status" aria-live="polite">正在載入票數⋯</p>
+      <ul class="dinner-vote-counts" id="dinner-vote-counts" aria-label="各晚餐選項票數"></ul>
     </section>
   </main>
   <script>
@@ -305,6 +388,128 @@
           localStorage.setItem(storageKey, theme);
         } catch (error) {}
       });
+    })();
+  </script>
+  <script>
+    (() => {
+      const dayStorageKey = "tainan-trip-day-view";
+      const checkStorageKey = "tainan-trip-stop-checks";
+      const dayButtons = [...document.querySelectorAll("[data-day-view]")];
+      const daySections = [...document.querySelectorAll(".day")];
+      const isValidView = (view) => view === "day1" || view === "day2" || view === "all";
+      const setDayView = (view, save = true) => {
+        const selectedView = isValidView(view) ? view : "all";
+        daySections.forEach((section) => {
+          section.hidden = selectedView !== "all" && section.id !== selectedView;
+        });
+        dayButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.dayView === selectedView));
+        });
+        if (save) {
+          try { localStorage.setItem(dayStorageKey, selectedView); } catch (error) {}
+        }
+      };
+      let savedView = "all";
+      try { savedView = localStorage.getItem(dayStorageKey) || "all"; } catch (error) {}
+      setDayView(savedView, false);
+      dayButtons.forEach((button) => {
+        button.addEventListener("click", () => setDayView(button.dataset.dayView));
+      });
+
+      let savedChecks = {};
+      try {
+        const parsed = JSON.parse(localStorage.getItem(checkStorageKey) || "{}");
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) savedChecks = parsed;
+      } catch (error) {}
+      document.querySelectorAll("[data-stop-id]").forEach((checkbox) => {
+        const stopId = checkbox.dataset.stopId;
+        checkbox.checked = savedChecks[stopId] === true;
+        checkbox.addEventListener("change", () => {
+          savedChecks[stopId] = checkbox.checked;
+          try { localStorage.setItem(checkStorageKey, JSON.stringify(savedChecks)); } catch (error) {}
+        });
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const supabaseUrl = "https://fvwypmvraqxvmqbaadkf.supabase.co";
+      const publicKey = "sb_publishable_dYi-XPUBbx99KofuZKWi8w_vS8hZUCi";
+      const allowedOptions = ["牛肉湯", "鱔魚意麵", "棺材板"];
+      const endpoint = `${supabaseUrl}/rest/v1/dinner_votes`;
+      const form = document.getElementById("dinner-vote-form");
+      const nicknameField = document.getElementById("dinner-vote-nickname");
+      const optionField = document.getElementById("dinner-vote-option");
+      const status = document.getElementById("dinner-vote-status");
+      const countsList = document.getElementById("dinner-vote-counts");
+      const submitButton = form.querySelector('button[type="submit"]');
+      const headers = {
+        apikey: publicKey,
+        Authorization: `Bearer ${publicKey}`,
+        "Content-Type": "application/json"
+      };
+
+      const refreshCounts = async () => {
+        const counts = Object.fromEntries(allowedOptions.map((option) => [option, 0]));
+        try {
+          for (let offset = 0; ; offset += 1000) {
+            const url = new URL(endpoint);
+            url.searchParams.set("select", "option");
+            url.searchParams.set("limit", "1000");
+            url.searchParams.set("offset", String(offset));
+            const response = await fetch(url, { headers });
+            if (!response.ok) throw new Error("票數讀取失敗");
+            const votes = await response.json();
+            if (!Array.isArray(votes)) throw new Error("票數格式錯誤");
+            votes.forEach((vote) => {
+              if (Object.hasOwn(counts, vote.option)) counts[vote.option] += 1;
+            });
+            if (votes.length < 1000) break;
+          }
+          countsList.replaceChildren(...allowedOptions.map((option) => {
+            const item = document.createElement("li");
+            const label = document.createElement("span");
+            const number = document.createElement("strong");
+            label.textContent = option;
+            number.textContent = `${counts[option]} 票`;
+            item.append(label, number);
+            return item;
+          }));
+          return true;
+        } catch (error) {
+          status.textContent = "目前無法載入票數，請稍後再試。";
+          return false;
+        }
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const nickname = nicknameField.value.trim();
+        const option = optionField.value;
+        if (!nickname || nickname.length > 40 || !allowedOptions.includes(option)) {
+          status.textContent = "請填寫暱稱並選擇有效的晚餐選項。";
+          return;
+        }
+        submitButton.disabled = true;
+        status.textContent = "投票送出中⋯";
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { ...headers, Prefer: "return=minimal" },
+            body: JSON.stringify({ nickname, option })
+          });
+          if (!response.ok) throw new Error("投票失敗");
+          form.reset();
+          const refreshed = await refreshCounts();
+          status.textContent = refreshed ? "投票成功，票數已更新。" : "投票已送出，但票數目前無法更新。";
+        } catch (error) {
+          status.textContent = "投票未成功，請檢查網路後再試。";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+
+      refreshCounts();
     })();
   </script>
 </body>
