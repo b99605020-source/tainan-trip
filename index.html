@@ -462,6 +462,7 @@
       const lockVoteForm = (option) => {
         form.dataset.voted = "true";
         nicknameField.disabled = true;
+        optionField.value = option;
         optionField.disabled = true;
         submitButton.disabled = true;
         status.textContent = `你已經投過了，投的是「${option}」。`;
