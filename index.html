@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3eb">
+  <title>府城快樂遊｜陽光裡慢慢走，慢慢吃</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #354638;
+      --muted: #718071;
+      --paper: #fff8e9;
+      --card: #fffefa;
+      --green: #4f795e;
+      --green-soft: #eaf1d9;
+      --orange: #bd6848;
+      --line: #eddfc7;
+      --shadow: 0 12px 32px rgba(137, 102, 47, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 92% 3%, rgba(255, 224, 151, .52), transparent 27%), var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { width: min(100% - 32px, 760px); margin: 0 auto; padding-bottom: 42px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin: 18px 0 22px;
+      padding: 34px 25px 29px;
+      border-radius: 26px;
+      color: var(--ink);
+      background: radial-gradient(circle at 86% 18%, rgba(255, 255, 224, .8), transparent 21%), linear-gradient(135deg, #f4d27c 0%, #f7bb78 55%, #e9a06c 100%);
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -52px;
+      right: 18px;
+      width: clamp(130px, 36vw, 205px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,228,.95) 0 34%, rgba(255,244,189,.48) 56%, rgba(255,244,189,0) 73%);
+      pointer-events: none;
+    }
+    .eyebrow { margin: 0 0 5px; color: #785a32; font-size: 13px; font-weight: 700; letter-spacing: .16em; }
+    h1 { position: relative; z-index: 1; margin: 0; color: #30483a; font-size: clamp(34px, 9vw, 52px); line-height: 1.18; letter-spacing: .04em; }
+    .hero p:last-child { position: relative; z-index: 1; margin: 12px 0 0; color: #594c38; font-size: 16px; }
+    .quick-nav { display: flex; gap: 10px; margin: 0 0 30px; }
+    .quick-nav a {
+      flex: 1; min-height: 46px; display: grid; place-items: center;
+      border: 1px solid var(--line); border-radius: 14px; background: var(--card);
+      color: var(--green); text-decoration: none; font-size: 15px; font-weight: 750;
+    }
+    .day { margin-top: 34px; scroll-margin-top: 16px; }
+    .day-heading { display: flex; align-items: center; gap: 13px; margin: 0 0 16px; }
+    .day-number {
+      flex: 0 0 54px; width: 54px; height: 54px; display: grid; place-items: center;
+      border-radius: 17px; background: var(--green); color: white; font-size: 23px; font-weight: 800;
+    }
+    .day-heading h2 { margin: 0; font-size: 24px; line-height: 1.25; }
+    .day-heading p { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .stops { display: grid; gap: 13px; }
+    .stop {
+      position: relative; padding: 19px 18px 17px;
+      border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: 0 5px 16px rgba(45,55,43,.035);
+    }
+    .stop-top { display: flex; align-items: flex-start; gap: 12px; }
+    .time {
+      flex: 0 0 auto; min-width: 82px; padding: 4px 9px; border-radius: 10px;
+      background: var(--green-soft); color: var(--green); text-align: center;
+      font-size: 14px; font-weight: 800; line-height: 1.6;
+    }
+    .stop h3 { margin: 0; font-size: 19px; line-height: 1.4; }
+    .place { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .desc { margin: 13px 0 12px; font-size: 16px; line-height: 1.65; }
+    .souvenir { margin: 0; padding-top: 10px; border-top: 1px dashed var(--line); color: #684d38; font-size: 14px; }
+    .souvenir strong { color: var(--orange); }
+    .note { margin: 25px 2px 0; padding: 14px 16px; border-radius: 15px; background: #efe8d9; color: #625b4e; font-size: 14px; }
+    footer { padding: 25px 10px 0; color: var(--muted); text-align: center; font-size: 13px; }
+    .day .stops {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 13px;
+      padding-left: 25px;
+    }
+    .day .stops::before {
+      content: "";
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 6px;
+      width: 3px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #e9b95f, #9bb486);
+    }
+    .day .stop::before {
+      content: "";
+      position: absolute;
+      top: 25px;
+      left: -25px;
+      width: 15px;
+      height: 15px;
+      border: 3px solid #fffefa;
+      border-radius: 50%;
+      background: #d78d50;
+      box-shadow: 0 0 0 2px #e9b95f;
+    }    @media (min-width: 620px) {
+      .page { width: min(100% - 48px, 760px); }
+      .hero { margin-top: 28px; padding: 43px 38px 37px; }
+      .stops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stop { padding: 20px; }
+    }
+    @media (max-width: 360px) {
+      .page { width: calc(100% - 24px); }
+      .stop { padding: 16px 14px; }
+      .time { min-width: 74px; font-size: 13px; }
+      .stop h3 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">SLOW DAYS IN TAINAN · 2 DAYS / 1 NIGHT</p>
+      <h1>府城快樂遊</h1>
+      <p>巷弄散步、老屋小店，和朋友一起慢慢吃、慢慢逛。</p>
+    </header>
+
+    <nav class="quick-nav" aria-label="行程快速導覽">
+      <a href="#day1">第一天｜老城漫遊</a>
+      <a href="#day2">第二天｜午後散策</a>
+    </nav>
+
+    <section class="day" id="day1" aria-labelledby="day1-title">
+      <div class="day-heading">
+        <div class="day-number" aria-hidden="true">01</div>
+        <div><h2 id="day1-title">第一天・老城漫遊</h2><p>中西區｜從巷弄走進台南日常</p></div>
+      </div>
+      <div class="stops">
+        <article class="stop">
+          <div class="stop-top"><span class="time">10:30</span><div><h3>府城小巷散步</h3><p class="place">示意地點｜中西區巷弄</p></div></div>
+          <p class="desc">先放慢腳步鑽進老街巷，看看紅磚老屋和轉角的小風景。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>巷弄明信片、老屋造型磁鐵</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">12:00</span><div><h3>小霞的古早味</h3><p class="place">示意店名｜午餐</p></div></div>
+          <p class="desc">挑幾樣在地小吃分著吃，留點胃口給下午的甜點。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>蝦餅小包、虱目魚造型鑰匙圈</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">14:00</span><div><h3>暖日老屋茶屋</h3><p class="place">示意店名｜老屋咖啡與甜點</p></div></div>
+          <p class="desc">在老屋裡坐一會兒，點杯茶或甜品補充散步能量。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>茶包禮盒、手繪杯墊</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">16:30</span><div><h3>河樂廣場看夕陽</h3><p class="place">示意地點｜市區散步景點</p></div></div>
+          <p class="desc">沿著水岸走走、拍幾張合照，再找喜歡的地方吃晚餐。</p>
+          <p class="souvenir"><strong>紀念小物：</strong>台南風景明信片、底片風相片</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="day2" aria-labelledby="day2-title">
+      <div class="day-heading">
+        <div class="day-number" aria-hidden="true">02</div>
+        <div><h2 id="day2-title">第二天・午後散策</h2><p>安平｜海風、老街與返程前的小採買</p></div>
+      </div>
+      <div class="stops">
+        <article class="stop">
+          <div class="stop-top"><span class="time">09:30</span><div><h3>安平樹屋慢慢逛</h3><p class="place">示意地點｜安平老街周邊</p></div></div>
+          <p class="desc">看看老建築和盤根錯節的榕樹，感受時間留下來的痕跡。</p>
+          <p class="souvenir"><strong>紀念小物：</strong>樹屋插畫明信片、古蹟造型書籤</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">11:30</span><div><h3>蝦捲阿嬤小舖</h3><p class="place">示意店名｜午餐</p></div></div>
+          <p class="desc">用一桌經典台南味當午餐，大家一起點菜分享最有旅行感。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>蝦餅禮盒、海味零嘴</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">13:30</span><div><h3>安平老街尋寶</h3><p class="place">示意地點｜安平老街</p></div></div>
+          <p class="desc">邊逛小店邊試吃，把想帶回家的台南味一次買齊。</p>
+          <p class="souvenir"><strong>伴手禮提案：</strong>蜜餞小盒、蝦餅分享包</p>
+        </article>
+        <article class="stop">
+          <div class="stop-top"><span class="time">15:30</span><div><h3>海風選物小店</h3><p class="place">示意店名｜返程前最後一站</p></div></div>
+          <p class="desc">挑一件輕巧的小紀念品，帶著兩天的回憶準備返程。</p>
+          <p class="souvenir"><strong>紀念小物：</strong>台南插畫小卡、帆布零錢包</p>
+        </article>
+      </div>
+    </section>
+
+    <p class="note">行程中的店名、地點與時間皆為示意，實際開放時間與交通安排請出發前確認；可依大家的步調彈性調整。</p>
+    <footer>留一點空白給迷路、加點和意外遇見的好風景。</footer>
+    <section class="note" aria-labelledby="reminder-title">
+      <h2 id="reminder-title" style="margin:0 0 6px;font-size:18px;color:var(--ink)">行前提醒</h2>
+      <p style="margin:0">天氣：示意｜出發前確認台南天氣，依預報準備雨具或防曬用品。</p>
+      <p style="margin:0">要帶的東西：示意｜手機、行動電源、水壺與舒適好走的鞋。</p>
+      <p style="margin:0">集合時間：示意｜第一天上午 10:00 集合，實際時間再通知。</p>
+    </section>
+  </main>
+</body>
+</html>
+
+
+
+
