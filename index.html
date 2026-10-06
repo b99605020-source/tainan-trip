@@ -475,6 +475,7 @@
             item.append(label, number);
             return item;
           }));
+          status.textContent = "票數已更新。";
           return true;
         } catch (error) {
           status.textContent = "目前無法載入票數，請稍後再試。";
